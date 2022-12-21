@@ -4,10 +4,10 @@
 </div>
 
 Resmi Dökümasayon:
->- [Validator Kurulum Adımları](https://docs.nibiru.fi/run-nodes/testnet/)
+>- [Tıkla](https://docs.nibiru.fi/run-nodes/testnet/)
 
 Explorer:
->-  https://explorer.secardnode.com/nibiru
+>- [Tıkla](https://explorer.secardnode.com/nibiru)
 
 
 ## Sistem Gereksinimleri
@@ -53,6 +53,10 @@ make install
 /// Yükledikten Sonra v0.16.2 olduğunu aşağıdaki kodu yazarak onaylayalım
 ~~~
 nibid version
+~~~
+
+İnit App
+~~~nibid init Monikerİsminiz --chain-id nibiru-testnet-2
 ~~~
 
 Genesisi İndiriyoruz

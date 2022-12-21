@@ -55,18 +55,19 @@ make install
 nibid version
 ~~~
 
-İnit App
-~~~nibid init Monikerİsminiz --chain-id nibiru-testnet-2
+/// İnit App
+~~~
+nibid init Monikerİsminiz --chain-id nibiru-testnet-2
 ~~~
 
-Genesisi İndiriyoruz
+/// Genesisi İndiriyoruz
 
 ~~~bash
 NETWORK=nibiru-testnet-2
 curl -s https://networks.testnet.nibiru.fi/$NETWORK/genesis > $HOME/.nibid/config/genesis.json
 ~~~
 
-Seed ve Peerleri Giriyoruz
+/// Seed ve Peerleri Giriyoruz
 
 ~~~bash
 NETWORK=nibiru-testnet-2
@@ -75,7 +76,7 @@ sed -i 's|seeds =.*|seeds = "'$(curl -s https://networks.testnet.nibiru.fi/$NETW
 
 
 
-Pruning Ayarlarını Yapıyoruz
+/// Pruning Ayarlarını Yapıyoruz
 
 ~~~bash
 sed -i -e "s/^pruning *=.*/pruning = \"nothing\"/" $HOME/.nibid/config/app.toml
@@ -83,7 +84,7 @@ sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.ni
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.nibid/config/app.toml
 ~~~
 
-Gerekli Chain Ayarlarını Yapıyoruz
+/// Gerekli Chain Ayarlarını Yapıyoruz
 
 ~~~bash
 sed -i 's/minimum-gas-prices =.*/minimum-gas-prices = "0.025unibi"/g' $HOME/.nibid/config/app.toml
@@ -91,13 +92,13 @@ sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.nibid/config/config.t
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.nibid/config/config.toml
 ~~~
 
-Eski Data Varsa Siliyoruz
+/// Eski Data Varsa Siliyoruz
 
 ~~~bash
 nibid tendermint unsafe-reset-all --home $HOME/.nibid --keep-addr-book
 ~~~
 
-Ve Servis Dosyası Oluşturuyoruz
+/// Ve Servis Dosyası Oluşturuyoruz
 
 ~~~bash
 sudo tee /etc/systemd/system/nibid.service > /dev/null <<EOF
@@ -117,7 +118,7 @@ WantedBy=multi-user.target
 EOF
 ~~~
 
-Servis Dosyasını Aktif Edip Çalıştırıyoruz
+/// Servis Dosyasını Aktif Edip Çalıştırıyoruz
 
 ~~~bash
 sudo systemctl daemon-reload
@@ -125,23 +126,23 @@ sudo systemctl enable nibid
 sudo systemctl restart nibid && sudo journalctl -u nibid -f
 ~~~
 
-## Wallet Oluşturma
+/// Wallet Oluşturma
 Mnemonic Kelimelerinizi Güvenli Bir Yere Kaydedin Kaybetmeyin
 
 ~~~bash
 nibid keys add walletisminiyazıyorsunuz
 ~~~
 
-Eskiden Wallet Oluşturduysanız Recovery Edebilirsiniz
+/// Eskiden Wallet Oluşturduysanız Recovery Edebilirsiniz
 
 ~~~bash
 nibid keys add walletisminiyazıyorsunuz --recover
 ~~~
 
-Sync Olduktan Sonra Discord Faucet Sayfanızdan Cüzdan Adresinize Faucet Talep Edip Validator Oluşturabilirsiniz
+/// Sync Olduktan Sonra Discord Faucet Sayfanızdan Cüzdan Adresinize Faucet Talep Edip Validator Oluşturabilirsiniz
 
 
-Validator Oluşturma
+/// Validator Oluşturma
 
 ~~~bash
 nibid tx staking create-validator \
@@ -159,41 +160,41 @@ nibid tx staking create-validator \
   
 
 
-### Servis Komutları
+/// Servis Komutları
 Log Kontrol
 
 ~~~bash
 sudo journalctl -u nibid -f
 ~~~
 
-Servis Durdurma
+/// Servis Durdurma
 
 ~~~bash
 sudo systemctl stop nibid
 ~~~
 
-Servis Başlatma
+/// Servis Başlatma
 
 ~~~bash
 sudo systemctl start nibid
 ~~~
 
-Servis Restart
+/// Servis Restart
 
 ~~~bash
 sudo systemctl restart nibid
 ~~~
 
-### Cüzdan
+/// Cüzdan
 
-Cüzdan Miktar Kontrol
+/// Cüzdan Miktar Kontrol
 
 ~~~bash
 nibid query bank balances cüzdanadresiniz
 ~~~
 
 
-### Node Silme
+/// Node Silme
 
 ~~~bash
 sudo systemctl stop nibid

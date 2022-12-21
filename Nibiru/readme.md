@@ -9,6 +9,10 @@ Resmi Dökümasayon:
 Explorer:
 >- [Tıkla](https://explorer.secardnode.com/nibiru)
 
+// Addrbook İndirme
+~~~
+wget -O $HOME/.nibid/config/addrbook.json "https://transfer.sh/Pv8BT8/nibiruaddrbook" 
+~~~
 
 ## Sistem Gereksinimleri
 ### Minimum Sistem Gereksinimler

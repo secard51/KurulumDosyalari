@@ -110,7 +110,7 @@ systemctl restart lavad && journalctl -u lavad -f -o cat
 ```
 
 # Servis Dosyası Oluşturun
-```python
+```
 sudo tee /etc/systemd/system/lavad.service > /dev/null <<EOF
 [Unit]
 Description=lava

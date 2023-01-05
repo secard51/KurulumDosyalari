@@ -133,9 +133,9 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable lavad
 sudo systemctl restart lavad && sudo journalctl -u lavad -f -o cat
-
+```
 ### Validator Oluşturma
-```python
+```
 lavad tx staking create-validator \
   --amount 1000000ulava \
   --from <CüzanİsminiziYazın> \

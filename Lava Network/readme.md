@@ -57,7 +57,7 @@ sudo systemctl restart lavad && sudo journalctl -u lavad -f -o cat
 - version: 0.4.0-rc2-e2c69db
 - commit: 
 
-*******🟢UPDATE ( GÜNCELLE )🟢******* v0.4.3-5673a81
+*******🟢UPDATE ( GÜNCELLE )🟢******* v0.4.3-5673a81  22.300 BLOKTAN SONRA BU GÜNCELLEME YAPILACAK
 ```python
 cd $HOME
 wget https://lava-binary-upgrades.s3.amazonaws.com/testnet/v0.4.3/lavad

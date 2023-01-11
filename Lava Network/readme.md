@@ -56,6 +56,15 @@ sudo systemctl restart lavad && sudo journalctl -u lavad -f -o cat
 `lavad version --long | head`
 - version: 0.4.0-rc2-e2c69db
 - commit: 
+
+*******🟢UPDATE ( GÜNCELLE )🟢******* v0.4.3-5673a81
+```python
+cd $HOME
+wget https://lava-binary-upgrades.s3.amazonaws.com/testnet/v0.4.3/lavad
+chmod +x lavad
+mv lavad $HOME/go/bin/
+sudo systemctl restart lavad && sudo journalctl -u lavad -f -o cat
+```
 ## Moniker Adınız Yerine Kendi Moniker İsminizi Yazın
 ```python
 lavad init "MonikerAdınız" --chain-id lava-testnet-1

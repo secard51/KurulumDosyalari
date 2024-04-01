@@ -1,6 +1,6 @@
 <div>
 <h1 align="left" style="display: flex;"> Nibiru Node Setup for Testnet — nibiru-testnet-2</h1>
-<img src="https://images.passle.net/fit-in/860x860/Passle/53304eb43d9474057cbfc02a/SearchServiceImages/2022-09-23-20-11-24-981-632e12ecf636ea0abc0c9990.jpg (https://pbs.twimg.com/profile_images/1755258588467957760/1M4PtsaZ_400x400.jpg)](https://pbs.twimg.com/profile_banners/1752189672770469888/1707249217/1080x360)"  style="float: right;" width="1080" height="360"></img>
+<img src="https://i.hizliresim.com/81hxrzx.jpeg"  style="float: right;" width="1080" height="360"></img>
 </div>
 
 Resmi Dökümasayon:

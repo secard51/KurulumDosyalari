@@ -1,24 +1,16 @@
 <div>
-<h1 align="left" style="display: flex;"> Nibiru Node Setup for Testnet — nibiru-testnet-2</h1>
+<h1 align="left" style="display: flex;"> Aligned Layer Node Setup for Testnet </h1>
 <img src="https://i.hizliresim.com/81hxrzx.jpeg"  style="float: right;" width="1080" height="360"></img>
 </div>
 
 Resmi Dökümasayon:
->- [Tıkla](https://docs.nibiru.fi/run-nodes/testnet/)
+>- [Tıkla](https://github.com/yetanotherco/aligned_layer_tendermint/tree/v0.1.0?tab=readme-ov-file#node-setup)
 
 Explorer:
->- [Tıkla](https://explorer.secardnode.com/nibiru)
+>- [Tıkla](https://explorer.alignedlayer.com/alignedlayer/staking/alignedvaloper1k4ghu260drcw4zuspjdwpfttwa9g2k7j9qhkkt)
 
-// Addrbook İndirme
-~~~
-wget -O $HOME/.nibid/config/addrbook.json "https://transfer.sh/Pv8BT8/nibiruaddrbook" 
-~~~
 
-## Sistem Gereksinimleri
-### Minimum Sistem Gereksinimler
- - 4x CPUs
- - 16GB RAM
- - 500GB of disk space (SSD)
+
 
 
 ### Manuel Kurulum
@@ -28,6 +20,11 @@ wget -O $HOME/.nibid/config/addrbook.json "https://transfer.sh/Pv8BT8/nibiruaddr
 ~~~bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install curl git wget htop tmux build-essential jq make gcc -y
+sudo apt install moreutils
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl https://get.ignite.com/cli! | bash
+source ~/.bash_profile
+
 ~~~
 
 
@@ -35,7 +32,7 @@ sudo apt install curl git wget htop tmux build-essential jq make gcc -y
 
 ~~~bash
 cd $HOME
-VER="1.19.3"
+VER="1.21.6"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
 rm -rf  "go$VER.linux-amd64.tar.gz"
@@ -44,79 +41,35 @@ source $HOME/.bash_profile
 go version
 ~~~
 
-// Binnary Dosyasını İndirip Build Ediyoruz
+// Binnary Dosyasını İndiriyoruz
 
 ~~~bash
 cd $HOME
-git clone https://github.com/NibiruChain/nibiru
-cd nibiru
-git checkout v0.16.2
-make install 
+wget https://github.com/yetanotherco/aligned_layer_tendermint/archive/refs/tags/v0.1.0.tar.gz
+tar -xzf $HOME/v0.1.0.tar.gz
+cd $HOME/aligned_layer_tendermint-0.1.0
+
 ~~~
 
-/// Yükledikten Sonra v0.16.2 olduğunu aşağıdaki kodu yazarak onaylayalım
+/// Moniker İsminizi Girin
 ~~~
-nibid version
-~~~
-
-/// İnit App
-~~~
-nibid init Monikerİsminiz --chain-id nibiru-testnet-2
+bash setup_node.sh <monikeradi>
 ~~~
 
-/// Genesisi İndiriyoruz
-
-~~~bash
-NETWORK=nibiru-testnet-2
-curl -s https://networks.testnet.nibiru.fi/$NETWORK/genesis > $HOME/.nibid/config/genesis.json
-~~~
-
-/// Seed ve Peerleri Giriyoruz
-
-~~~bash
-NETWORK=nibiru-testnet-2
-sed -i 's|seeds =.*|seeds = "'$(curl -s https://networks.testnet.nibiru.fi/$NETWORK/seeds)'"|g' $HOME/.nibid/config/config.toml
-~~~
-
-
-
-/// Pruning Ayarlarını Yapıyoruz
-
-~~~bash
-sed -i -e "s/^pruning *=.*/pruning = \"nothing\"/" $HOME/.nibid/config/app.toml
-sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.nibid/config/app.toml
-sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.nibid/config/app.toml
-~~~
-
-/// Gerekli Chain Ayarlarını Yapıyoruz
-
-~~~bash
-sed -i 's/minimum-gas-prices =.*/minimum-gas-prices = "0.025unibi"/g' $HOME/.nibid/config/app.toml
-sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.nibid/config/config.toml
-sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.nibid/config/config.toml
-~~~
-
-/// Eski Data Varsa Siliyoruz
-
-~~~bash
-nibid tendermint unsafe-reset-all --home $HOME/.nibid --keep-addr-book
-~~~
 
 /// Ve Servis Dosyası Oluşturuyoruz
 
 ~~~bash
-sudo tee /etc/systemd/system/nibid.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/alignedlayerd.service > /dev/null << EOF
 [Unit]
-Description=nibiru
+Description=AlignedLayerd Node Service
 After=network-online.target
-
 [Service]
 User=$USER
-ExecStart=$(which nibid) start --home $HOME/.nibid
+ExecStart=$(which alignedlayerd) start
 Restart=on-failure
-RestartSec=3
+RestartSec=10
 LimitNOFILE=65535
-
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -126,67 +79,67 @@ EOF
 
 ~~~bash
 sudo systemctl daemon-reload
-sudo systemctl enable nibid
-sudo systemctl restart nibid && sudo journalctl -u nibid -f
+sudo systemctl enable alignedlayerd.service
+sudo systemctl start alignedlayerd.service
+sudo journalctl -u alignedlayerd.service -f --no-hostname -o cat
 ~~~
 
 /// Wallet Oluşturma
 Mnemonic Kelimelerinizi Güvenli Bir Yere Kaydedin Kaybetmeyin
 
 ~~~bash
-nibid keys add walletisminiyazıyorsunuz
+alignedlayerd keys add <key adi>
 ~~~
 
 /// Eskiden Wallet Oluşturduysanız Recovery Edebilirsiniz
 
 ~~~bash
-nibid keys add walletisminiyazıyorsunuz --recover
+alignedlayerd keys add <key adi> --recover
 ~~~
 
-/// Sync Olduktan Sonra Discord Faucet Sayfanızdan Cüzdan Adresinize Faucet Talep Edip Validator Oluşturabilirsiniz
+/// Faucet Sayfası
+https://faucet.alignedlayer.com/
 
 
-/// Validator Oluşturma
+/// Sync Kontrol Edelim False ise Validator Oluşturabiliriz
 
 ~~~bash
-nibid tx staking create-validator \
-  --amount 1000000unibi \
-  --from cüzdanisminiziyazın \
-  --commission-max-change-rate "0.01" \
-  --commission-max-rate "0.2" \
-  --commission-rate "0.05" \
-  --min-self-delegation "1" \
-  --pubkey  $(nibid tendermint show-validator) \
-  --moniker SizinMonikerİsminizYazın \
-  --chain-id nibiru-testnet-2 \
-  --fees 10000unibi
+alignedlayerd status 2>&1 | jq -r '.SyncInfo.catching_up // .sync_info.catching_up'
+
+bash setup_validator.sh <key adi> 1050000stake
 ~~~
-  
+
+/// Delegate İçin
+
+~~~bash
+alignedlayerd tx staking delegate $(alignedlayerd keys show <keyadiniz> --bech val -a) 1050000stake --from <keyadi> --chain-id alignedlayer --gas-prices 0.1stake --gas-adjustment 1.5 --gas auto -y
+~~~  
+
 
 
 /// Servis Komutları
 Log Kontrol
 
 ~~~bash
-sudo journalctl -u nibid -f
+sudo journalctl -u alignedlayerd -f
 ~~~
 
 /// Servis Durdurma
 
 ~~~bash
-sudo systemctl stop nibid
+sudo systemctl stop alignedlayerd
 ~~~
 
 /// Servis Başlatma
 
 ~~~bash
-sudo systemctl start nibid
+sudo systemctl start alignedlayerd
 ~~~
 
 /// Servis Restart
 
 ~~~bash
-sudo systemctl restart nibid
+sudo systemctl restart alignedlayerd
 ~~~
 
 /// Cüzdan
@@ -194,19 +147,18 @@ sudo systemctl restart nibid
 /// Cüzdan Miktar Kontrol
 
 ~~~bash
-nibid query bank balances cüzdanadresiniz
+alignedlayerd query bank balances cüzdanadresiniz
 ~~~
 
 
 /// Node Silme
 
 ~~~bash
-sudo systemctl stop nibid
-sudo systemctl disable nibid
-sudo rm -rf /etc/systemd/system/nibid*
-sudo rm $(which nibid)
-sudo rm -rf $HOME/.nibid
-sudo rm -fr $HOME/nibiru
-sed -i "/NIBIRU_/d" $HOME/.bash_profile
+sudo systemctl stop alignedlayerd
+sudo systemctl disable alignedlayerd
+sudo rm -rf /etc/systemd/system/alignedlayerd*
+sudo rm $(which alignedlayerd)
+sudo rm -rf $HOME/.alignedlayerd
+sudo rm -fr $HOME/alignedlayerd
 ~~~
 

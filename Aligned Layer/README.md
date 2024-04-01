@@ -98,7 +98,10 @@ alignedlayerd keys add <key adi> --recover
 ~~~
 
 /// Faucet Sayfası
+~~~bash
 https://faucet.alignedlayer.com/
+~~~
+
 
 
 /// Sync Kontrol Edelim False ise Validator Oluşturabiliriz
@@ -108,6 +111,8 @@ alignedlayerd status 2>&1 | jq -r '.SyncInfo.catching_up // .sync_info.catching_
 
 bash setup_validator.sh <key adi> 1050000stake
 ~~~
+
+/// Addrbook İndirin
 
 /// Delegate İçin
 
@@ -142,7 +147,6 @@ sudo systemctl start alignedlayerd
 sudo systemctl restart alignedlayerd
 ~~~
 
-/// Cüzdan
 
 /// Cüzdan Miktar Kontrol
 
